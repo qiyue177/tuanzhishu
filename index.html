@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>团日活动生存指南</title>
+<style>
+  body{font-family:"Microsoft YaHei",sans-serif;background:#f5f5f5;margin:0;padding:20px;text-align:center}
+  .box{max-width:600px;margin:50px auto;background:#fff;padding:30px;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,.1)}
+  h1{color:#d32f2f}
+  .hidden{display:none}
+  button{display:block;width:80%;margin:15px auto;padding:12px;font-size:16px;border:1px solid #ccc;border-radius:5px;background:#fafafa;cursor:pointer}
+  button:hover{background:#eee}
+  .stats{margin:20px 0;font-weight:bold}
+  .end{color:#d32f2f;font-size:20px;font-weight:bold;margin:20px 0}
+</style>
+</head>
+<body>
+<div class="box" id="start">
+  <h1>团日活动生存指南（宫廷版）</h1>
+  <p>六道送命题，你能活到第几关？</p>
+  <button onclick="startGame()">开始试毒</button>
+</div>
+<div class="box hidden" id="game">
+  <div id="q-title"></div>
+  <div id="q-text"></div>
+  <div class="stats" id="stats"></div>
+  <button id="optA" onclick="choose('A')"></button>
+  <button id="optB" onclick="choose('B')"></button>
+</div>
+<div class="box hidden" id="end">
+  <div class="end">每个选择，都是坏结果。<br>因为问题从来不在你，而在团支书怎么干。</div>
+  <div id="final-stats"></div>
+  <p>大家好，我是<b>邓雅文</b>（请改成你名字）。今天我站在这里，就是想做那个不让你做选择题、帮你搞定所有变更的团支书。</p>
+</div>
+<script>
+  let step=0,bp=0,xj=0,tc=0;
+  const levels=[
+    {q:"第1关：通知",t:"收到周日早8点团日通知：",a:"准时到场（心机+1）",b:"假装没看见（血压+1）"},
+    {q:"第2关：变更",t:"活动前1小时说地点换了：",a:"默默重新导航（吐槽+1）",b:"问为什么（血压+1）"},
+    {q:"第3关：团课",t:"团课要求写500字感悟：",a:"复制粘贴（心机+1）",b:"熬夜原创（血压+1）"},
+    {q:"第4关：外出",t:"外出实践突降大雨：",a:"淋雨继续（血压+1）",b:"找地方躲（吐槽+1）"},
+    {q:"第5关：材料",t:"总结要图文并茂，你没拍照：",a:"网上找图（心机+1）",b:"补拍摆拍（血压+1）"},
+    {q:"第6关：评议",t:"互评有人打低分：",a:"坦然接受（吐槽+1）",b:"内心崩溃（血压+1）"}
+  ];
+  function startGame(){document.getElementById("start").classList.add("hidden");document.getElementById("game").classList.remove("hidden");render()}
+  function render(){let l=levels[step];document.getElementById("q-title").innerText=l.q;document.getElementById("q-text").innerText=l.t;document.getElementById("optA").innerText=l.a;document.getElementById("optB").innerText=l.b;document.getElementById("stats").innerText=`血压:${bp} | 心机:${xj} | 吐槽:${tc}`}
+  function choose(o){if(o==="A"){xj++;if(step===3)tc++}else{bp++;if(step===1||step===5)tc++}step++;step>=6?endGame():render()}
+  function endGame(){document.getElementById("game").classList.add("hidden");document.getElementById("end").classList.remove("hidden");document.getElementById("final-stats").innerText=`最终属性：血压 ${bp} | 心机 ${xj} | 吐槽 ${tc}`}
+</script>
+</body>
+</html>
